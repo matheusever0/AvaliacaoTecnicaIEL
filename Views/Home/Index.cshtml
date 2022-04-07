@@ -1,0 +1,560 @@
+﻿@model AvaliacaoTecnicaIEL.Models.CadastroAvaliacao
+@{
+    ViewBag.Title = "Formulário";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+    <div class="card card-success card-outline">
+        <div class="card-header">
+            <h3>Formulário IEL/FIEB</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nome-label">Nome</label>
+                        <input id="nome" name="nome" class="form-control" placeholder="Nome" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="CPF-label">CPF</label>
+                        <input id="cpf" name="cpf" class="form-control" placeholder="CPF" />
+                        <span id="msgValidCpf" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Telefone-label">Telefone</label>
+                        <input type="text" name="celular" id="cel" class="form-control" placeholder="Telefone">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Email-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Email">
+                        <span id="msgValidarEmail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input id="habilitacao" name="habilitacao" type="checkbox" value="1"> Habilitação
+                        <div class="mt-2" id="CategoriaTipo" style="display: none">
+                            <input id="categoria" name="categoria" class="form-control" placeholder="Categoria" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="linguaestrangeira">Língua Estrangeira</label>
+                    <div class="form-group">
+                        <select multiple="multiple" id="linguaestrangeira" name="linguaestrangeira">
+                            <option value="1">Inglês</option>
+                            <option value="2">Espanhol</option>
+                            <option value="3">Francês</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="label-estado">Estado</label>
+                                <select id="estado" name="EstadoId" class="form-control" required="">
+                                    <option value="0">- Selecione</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Cidade">Cidade</label>
+                                <select id="cidade" name="CidadeId" class="form-control" required="">
+                                    <option>- Selecione</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Cep-label">CEP</label>
+                                <input type="text" id="cep" name="cep" class="form-control" placeholder="CEP">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="logradouro-label">Logradouro</label>
+                                <input id="logradouro" name="logradouro" class="form-control" placeholder="Logradouro" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="numero-label">Número</label>
+                                <input id="numero" name="numero" class="form-control" placeholder="Número" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="complemento-label">Complemento</label>
+                                <input id="complemento" name="complemento" class="form-control" placeholder="Complemento" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="label-cargo">Cargo</label>
+                                <select id="cargo" name="cargo" class="form-control" required="">
+                                    <option value="0">- Selecione</option>
+                                    <option value="1">Analista Desenvolvedor I</option>
+                                    <option value="2">Analista Desenvolvedor II</option>
+                                    <option value="3">Analista Desenvolvedor III</option>
+                                    <option value="4">Analista Desenvolvedor IV</option>
+                                    <option value="5">Analista Desenvolvedor V</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="salario-label">Salário Proposto</label>
+                                <input id="salario" name="salario" class="form-control" placeholder="Salário Proposto" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card card-success card-outline">
+        <div class="card-body">
+            <table>
+                <tr>
+                    <th>Dia da Semana</th>
+                    <th>Hora Início</th>
+                    <th>Hora Fim</th>
+                    <th>Tempo de Descanso (h)</th>
+                    <th>Carga Horária (h)</th>
+                </tr>
+                <tr>
+                    <td>Segunda</td>
+                    <td><input type="time" id="horainicioseg" name="horainicioseg" min="00:00" max="23:59"></td>
+                    <td><input type="time" id="horafimseg" name="horafimseg" min="00:00" max="23:59"></td>
+                    <td><input type="number" id="horariodescansoseg" name="horariodescansoseg" value="0"></td>
+                    <td><input type="text" id="horariocargaseg" name="horariocargaseg" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td>Terça</td>
+                    <td><input type="time" id="horainicioter" name="horainicioter" min="00:00" max="23:59"></td>
+                    <td><input type="time" id="horafimter" name="horafimter" min="00:00" max="23:59"></td>
+                    <td><input type="number" id="horariodescansoter" name="horariodescansoter" value="0"></td>
+                    <td><input type="text" id="horariocargater" name="horariocargater" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td>Quarta</td>
+                    <td><input type="time" id="horainicioqua" name="horainicioqua" min="00:00" max="23:59"></td>
+                    <td><input type="time" id="horafimqua" name="horafimqua" min="00:00" max="23:59"></td>
+                    <td><input type="number" id="horariodescansoqua" name="horariodescansoqua" value="0"></td>
+                    <td><input type="text" id="horariocargaqua" name="horariocargaqua" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td>Quinta</td>
+                    <td><input type="time" id="horainicioqui" name="horainicioqui" min="00:00" max="23:59"></td>
+                    <td><input type="time" id="horafimqui" name="horafimseg" min="00:00" max="23:59"></td>
+                    <td><input type="number" id="horariodescansoqui" name="horariodescansoqui" value="0"></td>
+                    <td><input type="text" id="horariocargaqui" name="horariocargaqui" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td>Sexta</td>
+                    <td><input type="time" id="horainiciosex" name="horainiciosex" min="00:00" max="23:59"></td>
+                    <td><input type="time" id="horafimsex" name="horafimsex" min="00:00" max="23:59"></td>
+                    <td><input type="number" id="horariodescansosex" name="horariodescansosex" value="0" /></td>
+                    <td><input type="text" id="horariocargasex" name="horariocargasex" value="0" readonly></td>
+                </tr>
+                <tr>
+                    <td colspan="4">Carga Horária Semanal</td>
+                    <td><input type="text" id="cargahorariasemanal" name="cargahorariasemanal" value="0" readonly></td>
+                </tr>
+            </table>
+            <span id="msgValidError" class="text-danger"></span>
+        </div>
+        <div class="card-footer">
+            <p>
+                Tecnologias Utilizadas: C# .NET / Javascript / Bootstrap / Razor
+            </p>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+@section scripts {
+    <script src="~/lib/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
+    <script>
+
+
+        $(document).ready(function () {
+
+            CarregarEstados();
+
+            $('#cpf').mask('000.000.000-00', { placeholder: "___.___.___-__" });
+            $('#cel').mask('(00)-00000-0000', { placeholder: "(__)-_____-____" });
+            $('#cep').mask('00000-000', { placeholder: "_____-___" });
+            $('#salario').mask('R$00.000.00');
+
+        })
+
+
+        $("#estado").on("change",
+            function () {
+                if ($(this).val() != 0) {
+                    console.log(document.getElementById("estado").value);
+                    CarregaCidades(document.getElementById("estado").value)
+                }
+            });
+
+        function CarregarEstados() {
+            fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+                .then(response => response.json())
+                .then(data => {
+                    data.map(el => {
+                        let opt = document.createElement("option");
+                        opt.appendChild(document.createTextNode(el.nome));
+                        opt.value = el.sigla;
+                        document.getElementById("estado").appendChild(opt);
+                    });
+                });
+        }
+
+        function CarregaCidades(estado) {
+            var unidade = estado;
+            document.getElementById("cidade").innerHTML = '';
+            fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${unidade}/distritos`)
+                .then(response => response.json())
+                .then(data => {
+                    data.map(el => {
+                        let opt = document.createElement("option");
+                        opt.appendChild(document.createTextNode(el.nome));
+                        document.getElementById("cidade").appendChild(opt);
+                    });
+                });
+        }
+
+        $("#habilitacao").on("change",
+            function () {
+                if ($(this).is(':checked')) {
+                    $("#CategoriaTipo").show("fast");
+                } else {
+                    $("#CategoriaTipo").hide("fast");
+
+                }
+            }
+        );
+
+
+        $("#cep").focusout(function () {
+            DadosLogradouro(document.getElementById("cep").value);
+        });
+
+
+        $("#horainicioseg").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimseg').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioseg').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoseg').value, 10);
+
+            document.getElementById('horariocargaseg').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horafimseg").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimseg').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioseg').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoseg').value, 10);
+
+            document.getElementById('horariocargaseg').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+        $("#horariodescansoseg").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimseg').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioseg').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoseg').value, 10);
+
+            document.getElementById('horariocargaseg').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horainicioter").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimter').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioter').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoter').value, 10);
+
+            document.getElementById('horariocargater').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horafimter").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimter').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioter').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoter').value, 10);
+
+            document.getElementById('horariocargater').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horariodescansoter").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimter').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioter').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoter').value, 10);
+
+            document.getElementById('horariocargater').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horainicioqua").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimqua').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioqua').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoqua').value, 10);
+
+            document.getElementById('horariocargaqua').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horafimqua").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimqua').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioqua').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoqua').value, 10);
+
+            document.getElementById('horariocargaqua').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horariodescansoqua").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimqua').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioqua').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoqua').value, 10);
+
+            document.getElementById('horariocargaqua').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+        $("#horainicioqui").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimqui').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioqui').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoqui').value, 10);
+
+            document.getElementById('horariocargaqui').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horafimqui").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimqui').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioqui').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoqui').value, 10);
+
+            document.getElementById('horariocargaqui').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horariodescansoqui").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimqui').value, 10);
+            var horaini = parseInt(document.getElementById('horainicioqui').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansoqui').value, 10);
+
+            document.getElementById('horariocargaqui').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horainiciosex").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimsex').value, 10);
+            var horaini = parseInt(document.getElementById('horainiciosex').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansosex').value, 10);
+
+            document.getElementById('horariocargasex').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horafimsex").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimsex').value, 10);
+            var horaini = parseInt(document.getElementById('horainiciosex').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansosex').value, 10);
+
+            document.getElementById('horariocargasex').value = horafim - horaini - horadesc;
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        $("#horariodescansosex").on("change", function () {
+            var horafim = parseInt(document.getElementById('horafimsex').value, 10);
+            var horaini = parseInt(document.getElementById('horainiciosex').value, 10);
+            var horadesc = parseInt(document.getElementById('horariodescansosex').value, 10);
+
+            document.getElementById('horariocargasex').value = horafim - horaini - horadesc;
+
+            CalculaHoraSemanal();
+            VerificaCargaHoraria();
+        });
+
+
+        function CalculaHoraSemanal() {
+
+            var seg = parseInt(document.getElementById('horariocargaseg').value, 10)
+            var ter = parseInt(document.getElementById('horariocargater').value, 10)
+            var qua = parseInt(document.getElementById('horariocargaqua').value, 10)
+            var qui = parseInt(document.getElementById('horariocargaqui').value, 10)
+            var sex = parseInt(document.getElementById('horariocargasex').value, 10)
+
+            document.getElementById('cargahorariasemanal').value = seg + ter + qua + qui + sex;
+
+        }
+
+
+        function DadosLogradouro(cep) {
+            cep.replace("-", "");
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(resp => resp.json())
+                .then(data => {
+                    document.getElementById("logradouro").value = data.logradouro;
+                    document.getElementById("complemento").value = data.complemento;
+                });
+        }
+
+        $("#email").focusout(function () {
+            ValidarEmail();
+        });
+
+        function ValidarEmail() {
+            var email = document.getElementById("email");
+            if (email.value != "") {
+                $("#msgValidarEmail").html("");
+            } else {
+                $("#msgValidarEmail").html("É necessário informar um e-mail válido.");
+            }
+        }
+
+        $("#cpf").focusout(function () {
+            ValidarCPF();
+        });
+
+        $("#cpf").keyup(function () {
+            $("#msgValidCpf").html("");
+        });
+
+        function ValidarCPF() {
+
+            if ($("#cpf").val() != null && $("#cpf").val() != "") {
+
+                var cpf = document.getElementById('cpf').value;
+                cpf = cpf.replace(".", "").replace(".", "").replace("-", "");
+
+                if (TestaCPF(cpf)) {
+                    $("#msgValidCpf").html("");
+                } else {
+                    $("#msgValidCpf").html("O CPF " + cpf + " não é válido");
+                }
+
+            } else {
+                $("#msgValidCpf").html("É necessário informar um CPF válido.")
+            }
+        }
+
+        function VerificaCargaHoraria() {
+
+            if (document.getElementById('horariocargaseg').value > 10) {
+                document.getElementById('horariocargaseg').style.backgroundColor = "orange";
+            } else {
+                document.getElementById('horariocargaseg').style.backgroundColor = "";
+            }
+
+            if (document.getElementById('horariocargater').value > 10) {
+                document.getElementById('horariocargater').style.backgroundColor = "orange";
+            } else {
+                document.getElementById('horariocargater').style.backgroundColor = "";
+            }
+
+            if (document.getElementById('horariocargaqua').value > 10) {
+                document.getElementById('horariocargaqua').style.backgroundColor = "orange";
+            } else {
+                document.getElementById('horariocargaqua').style.backgroundColor = "";
+            }
+
+            if (document.getElementById('horariocargaqui').value > 10) {
+                document.getElementById('horariocargaqui').style.backgroundColor = "orange";
+            } else {
+                document.getElementById('horariocargaqui').style.backgroundColor = "";
+            }
+
+            if (document.getElementById('horariocargasex').value > 10) {
+                document.getElementById('horariocargasex').style.backgroundColor = "orange";
+            } else {
+                document.getElementById('horariocargasex').style.backgroundColor = "";
+            }
+
+            if (document.getElementById('cargahorariasemanal').value < 20) {
+                document.getElementById('cargahorariasemanal').style.backgroundColor = "red";
+                $("#msgValidError").html("Carga horária semanal inferior a 20 horas.");
+            } else if (document.getElementById('cargahorariasemanal').value > 40) {
+                document.getElementById('cargahorariasemanal').style.backgroundColor = "red";
+                $("#msgValidError").html("Carga horária semanal acima de 40 horas.");
+            } else {
+                document.getElementById('cargahorariasemanal').style.backgroundColor = "";
+                $("#msgValidError").html("");
+            }
+
+
+        }
+
+
+
+
+        function TestaCPF(strCPF) {
+            var Soma;
+            var Resto;
+            Soma = 0;
+            if (strCPF == "00000000000") return false;
+
+            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+            Soma = 0;
+            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+            return true;
+        }
+
+
+
+    </script>
+}
