@@ -198,6 +198,8 @@
 
             CarregarEstados();
 
+            // Mascaras
+
             $('#cpf').mask('000.000.000-00', { placeholder: "___.___.___-__" });
             $('#cel').mask('(00)-00000-0000', { placeholder: "(__)-_____-____" });
             $('#cep').mask('00000-000', { placeholder: "_____-___" });
@@ -205,14 +207,7 @@
 
         })
 
-
-        $("#estado").on("change",
-            function () {
-                if ($(this).val() != 0) {
-                    console.log(document.getElementById("estado").value);
-                    CarregaCidades(document.getElementById("estado").value)
-                }
-            });
+        // Carregamento de estados automatico via API do ibge
 
         function CarregarEstados() {
             fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
@@ -226,6 +221,19 @@
                     });
                 });
         }
+
+        //Carregamento de cidades de acordo com ajuste do estado
+
+        $("#estado").on("change",
+            function () {
+                if ($(this).val() != 0) {
+                    console.log(document.getElementById("estado").value);
+                    CarregaCidades(document.getElementById("estado").value)
+                }
+            });
+
+
+        // Carregamento de cidades de acordo com o estado selecionado via API
 
         function CarregaCidades(estado) {
             var unidade = estado;
@@ -241,6 +249,9 @@
                 });
         }
 
+
+        // Seleção de habilitação para abertura da categoria.
+
         $("#habilitacao").on("change",
             function () {
                 if ($(this).is(':checked')) {
@@ -252,11 +263,98 @@
             }
         );
 
+        // verificar os dados do logradouro
 
         $("#cep").focusout(function () {
             DadosLogradouro(document.getElementById("cep").value);
         });
 
+        // verificação via API dos dados do logradouro de acordo com o CEP
+
+        function DadosLogradouro(cep) {
+            cep.replace("-", "");
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(resp => resp.json())
+                .then(data => {
+                    document.getElementById("logradouro").value = data.logradouro;
+                    document.getElementById("complemento").value = data.complemento;
+                });
+        }
+
+
+        // validação via EMAIL saindo do focus do campo.
+
+        $("#email").focusout(function () {
+            ValidarEmail();
+        });
+
+        // função de validação de email
+
+        function ValidarEmail() {
+            var email = document.getElementById("email");
+            if (email.value != "") {
+                $("#msgValidarEmail").html("");
+            } else {
+                $("#msgValidarEmail").html("É necessário informar um e-mail válido.");
+            }
+        }
+
+        // validação de CPF saindo do focus
+
+        $("#cpf").focusout(function () {
+            ValidarCPF();
+        });
+
+        $("#cpf").keyup(function () {
+            $("#msgValidCpf").html("");
+        });
+
+
+        // função de validação de CPF
+
+        function ValidarCPF() {
+
+            if ($("#cpf").val() != null && $("#cpf").val() != "") {
+
+                var cpf = document.getElementById('cpf').value;
+                cpf = cpf.replace(".", "").replace(".", "").replace("-", "");
+
+                if (TestaCPF(cpf)) {
+                    $("#msgValidCpf").html("");
+                } else {
+                    $("#msgValidCpf").html("O CPF " + cpf + " não é válido");
+                }
+
+            } else {
+                $("#msgValidCpf").html("É necessário informar um CPF válido.")
+            }
+        }
+
+        // teste de CPF
+
+        function TestaCPF(strCPF) {
+            var Soma;
+            var Resto;
+            Soma = 0;
+            if (strCPF == "00000000000") return false;
+
+            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
+
+            Soma = 0;
+            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+            Resto = (Soma * 10) % 11;
+
+            if ((Resto == 10) || (Resto == 11)) Resto = 0;
+            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
+            return true;
+        }
+
+
+        // Verificações das tabelas
 
         $("#horainicioseg").on("change", function () {
             var horafim = parseInt(document.getElementById('horafimseg').value, 10);
@@ -434,55 +532,11 @@
 
         }
 
+        // fim verificações das tabelas
 
-        function DadosLogradouro(cep) {
-            cep.replace("-", "");
-            fetch(`https://viacep.com.br/ws/${cep}/json/`)
-                .then(resp => resp.json())
-                .then(data => {
-                    document.getElementById("logradouro").value = data.logradouro;
-                    document.getElementById("complemento").value = data.complemento;
-                });
-        }
 
-        $("#email").focusout(function () {
-            ValidarEmail();
-        });
 
-        function ValidarEmail() {
-            var email = document.getElementById("email");
-            if (email.value != "") {
-                $("#msgValidarEmail").html("");
-            } else {
-                $("#msgValidarEmail").html("É necessário informar um e-mail válido.");
-            }
-        }
-
-        $("#cpf").focusout(function () {
-            ValidarCPF();
-        });
-
-        $("#cpf").keyup(function () {
-            $("#msgValidCpf").html("");
-        });
-
-        function ValidarCPF() {
-
-            if ($("#cpf").val() != null && $("#cpf").val() != "") {
-
-                var cpf = document.getElementById('cpf').value;
-                cpf = cpf.replace(".", "").replace(".", "").replace("-", "");
-
-                if (TestaCPF(cpf)) {
-                    $("#msgValidCpf").html("");
-                } else {
-                    $("#msgValidCpf").html("O CPF " + cpf + " não é válido");
-                }
-
-            } else {
-                $("#msgValidCpf").html("É necessário informar um CPF válido.")
-            }
-        }
+        // verificação de carga horaria da table
 
         function VerificaCargaHoraria() {
 
@@ -529,32 +583,6 @@
 
 
         }
-
-
-
-
-        function TestaCPF(strCPF) {
-            var Soma;
-            var Resto;
-            Soma = 0;
-            if (strCPF == "00000000000") return false;
-
-            for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
-            Resto = (Soma * 10) % 11;
-
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(9, 10))) return false;
-
-            Soma = 0;
-            for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
-            Resto = (Soma * 10) % 11;
-
-            if ((Resto == 10) || (Resto == 11)) Resto = 0;
-            if (Resto != parseInt(strCPF.substring(10, 11))) return false;
-            return true;
-        }
-
-
 
     </script>
 }

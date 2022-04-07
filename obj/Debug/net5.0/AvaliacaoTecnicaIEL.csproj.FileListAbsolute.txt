@@ -9,7 +9,6 @@ C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\bin\Debug\net5.0\ref\AvaliacaoTecnic
 C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\bin\Debug\net5.0\AvaliacaoTecnicaIEL.pdb
 C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\bin\Debug\net5.0\AvaliacaoTecnicaIEL.Views.dll
 C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\bin\Debug\net5.0\AvaliacaoTecnicaIEL.Views.pdb
-C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\obj\Debug\net5.0\AvaliacaoTecnicaIEL.csproj.AssemblyReference.cache
 C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\obj\Debug\net5.0\AvaliacaoTecnicaIEL.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\obj\Debug\net5.0\AvaliacaoTecnicaIEL.AssemblyInfoInputs.cache
 C:\Users\Severo\Desktop\AvaliacaoTecnicaIEL\obj\Debug\net5.0\AvaliacaoTecnicaIEL.AssemblyInfo.cs
