@@ -19,7 +19,7 @@ CREATE PROCEDURE verifica_departamento_insert
 AS
  if exists(select cod_departamento from responsavel_departamento where cod_departamento = @codigodepartamento)
  begin
- UPDATE responsavel_departamento set nome = @nome_responsavel, login = @login_responsavel, email = @email_responsavel
+ UPDATE responsavel_departamento set nome = @nome_responsavel, login = @login_responsavel, email = @email_responsavel where cod_departamento = @codigodepartamento
  end
  else
  begin
